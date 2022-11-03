@@ -20,7 +20,7 @@ RSA::RSA(){
 }
 
 void RSA::printKeys(){
-    std::cout << "E: " << RSA::e << "\nD: " << RSA::d << std::endl;
+    std::cout << "E: " << RSA::e << "\nD: " << RSA::d << "\nN: " << RSA::modulus << std::endl;
 }
 
 void RSA::getKeys(){

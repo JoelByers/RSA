@@ -1,4 +1,5 @@
 #include <iostream>
+#include "fastmodexpon.h"
 #include "RSA.h"
 
 using namespace std;
@@ -6,11 +7,12 @@ using namespace std;
 int main(){
     RSA rsa;
     rsa.printKeys();
-    char a = 'a';
-    cout << a << endl;
-    int b = (char)rsa.encrypt((int)a);
-    cout << b << endl;
-    a = (char)rsa.decrypt(b);
-    cout << a << endl;
+    int a = 5;
+    //cout << FastModExpon(125,1195,1921) << endl;
+    cout << "Number:    " <<  a << endl;
+    a = rsa.encrypt(a);
+    cout << "Encrypted: " <<  a << endl;
+    a = rsa.decrypt(a);
+    cout << "Decrypted: " << a << endl;
     return 0;
 }
