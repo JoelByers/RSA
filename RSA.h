@@ -1,15 +1,18 @@
 #ifndef _RSA_H
 #define _RSA_H
 
-unsigned int gcd(unsigned int a, unsigned int b);
+unsigned int gcd(int a, int b);
 
 class RSA{
     public:
         RSA();
         void printKeys();
+        int encrypt(int data);
+        int decrypt(int data);
     private:
-        unsigned int encrypt;
-        unsigned int decrypt;
+        int e;
+        int d;
+        int modulus;
         void getKeys();
 };
 

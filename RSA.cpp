@@ -1,10 +1,11 @@
 #include "RSA.h"
+#include "fastmodexpon.h"
 #include <iostream>
 
-unsigned int gcd(unsigned int a, unsigned int b)
+unsigned int gcd(int a, int b)
 {
     // Solution found here: geeksforgeeks.org/program-to-find-gcd-or-hcf-of-two-numbers/
-    unsigned int result = a < b ? a : b; // Find Minimum of a nd b
+    int result = a < b ? a : b; // Find Minimum of a nd b
     while (result > 0) {
         if (a % result == 0 && b % result == 0) {
             break;
@@ -19,21 +20,30 @@ RSA::RSA(){
 }
 
 void RSA::printKeys(){
-    std::cout << "E: " << RSA::encrypt << "\nD: " << RSA::decrypt << std::endl;
+    std::cout << "E: " << RSA::e << "\nD: " << RSA::d << std::endl;
 }
 
 void RSA::getKeys(){
-    unsigned int P = 2;
-    unsigned int Q = 7;
-    unsigned int N = P * N;
-    unsigned int totientN = (P - 1) * (Q - 1);
+    int P = 113;
+    int Q = 11;
+    RSA::modulus = P * Q;
+    int totientModulus = (P - 1) * (Q - 1);
     
-    for(int i = 2; i < totientN; i++){
-        if(gcd(i, N) == 1 && gcd(i, totientN) == 1){
-            RSA::encrypt = i;
+    for(int i = 2; i < totientModulus; i++){
+        if(gcd(i, RSA::modulus) == 1 && gcd(i, totientModulus) == 1){
+            RSA::e = i;
             break;
         }
     }
 
-    RSA::decrypt = totientN - 1;
+    int k = 2;
+    RSA::d = 1 + (k * totientModulus) / RSA::e;
+}
+
+int RSA::encrypt(int data){
+    return FastModExpon(data, RSA::e, RSA::modulus);
+}
+
+int RSA::decrypt(int data){
+    return FastModExpon(data, RSA::d, RSA::modulus);
 }
