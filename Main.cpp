@@ -4,8 +4,8 @@
 using namespace std;
 
 int main(){
-    unsigned int a = gcd(2,4);
-    cout << a << endl;
+    RSA rsa;
+    rsa.printKeys();
 
     return 0;
 }
