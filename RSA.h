@@ -1,7 +1,7 @@
 #ifndef _RSA_H
 #define _RSA_H
 
-unsigned int gcd(int a, int b);
+int gcd(int a, int b);
 
 class RSA{
     public:
@@ -14,6 +14,7 @@ class RSA{
         int d;
         int modulus;
         void getKeys();
+        signed long gcdExtended(signed long x, signed long b, signed long* a, signed long* y);
 };
 
 #endif

@@ -2,7 +2,7 @@
 #include "fastmodexpon.h"
 #include <iostream>
 
-unsigned int gcd(int a, int b)
+int gcd(int a, int b)
 {
     // Solution found here: geeksforgeeks.org/program-to-find-gcd-or-hcf-of-two-numbers/
     int result = a < b ? a : b; // Find Minimum of a nd b
@@ -24,8 +24,8 @@ void RSA::printKeys(){
 }
 
 void RSA::getKeys(){
-    int P = 113;
-    int Q = 11;
+    int P = 73;
+    int Q = 17;
     RSA::modulus = P * Q;
     int totientModulus = (P - 1) * (Q - 1);
     
@@ -37,7 +37,16 @@ void RSA::getKeys(){
     }
 
     int k = 2;
-    RSA::d = 1 + (k * totientModulus) / RSA::e;
+    signed long temp;
+    signed long tempD;
+    int _ = gcdExtended(totientModulus, RSA::e, &temp, &tempD);
+
+    while(tempD <= 0){
+        tempD += totientModulus;
+    }
+
+    std::cout << tempD << std::endl;
+    RSA::d = (int)tempD;
 }
 
 int RSA::encrypt(int data){
@@ -46,4 +55,26 @@ int RSA::encrypt(int data){
 
 int RSA::decrypt(int data){
     return FastModExpon(data, RSA::d, RSA::modulus);
+}
+
+// Function for extended Euclidean Algorithm
+signed long RSA::gcdExtended(signed long x, signed long b, signed long* a, signed long* y)
+{
+
+	// Base Case
+	if (x == 0) {
+		*a = 0, *y = 1;
+		return b;
+	}
+
+	// To store results of recursive call
+	signed long x1, y1;
+	signed long gcd = gcdExtended(b % x, x, &x1, &y1);
+
+	// Update x and y using results of recursive
+	// call
+	*a = y1 - (b / x) * x1;
+	*y = x1;
+
+	return gcd;
 }
